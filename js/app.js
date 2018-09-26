@@ -25,6 +25,9 @@ Enemy.prototype.update = function(dt) {
         //player gets reset to starting point
         player.x = 200;
         player.y = 380;
+        //increase hit count
+        count += 1;
+        hitCount();
     }
 };
 
@@ -61,7 +64,14 @@ Player.prototype.update = function() {
         //Player gets reset to starting point
         this.x = 200;
         this.y = 380;
-    }
+        //winning message
+        if (confirm(`Congrats! You just won the game with ${count} Hit(s)! Do you want to play again?`)) {
+        location.reload();
+            } else {
+        
+        location.reload();
+            }
+        }
 };
 
 //render()
@@ -94,6 +104,7 @@ var allEnemies = [];
 var enemyPosition = [60, 140, 220];
 var player = new Player(200, 380, 50);
 var enemy;
+var count = 0;
 
 enemyPosition.forEach(function(posY) {
     enemy = new Enemy(0, posY, 100 + Math.floor(Math.random() * 512));
@@ -111,3 +122,7 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+function hitCount() {
+    document.getElementById('count').innerHTML = count;
+}
