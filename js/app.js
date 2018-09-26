@@ -21,10 +21,8 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
 
+//Player class
 var Player = function(x, y, speed) {
     this.x = x;
     this.y = y;
@@ -32,6 +30,7 @@ var Player = function(x, y, speed) {
     this.sprite = 'images/char-boy.png';
 };
 
+//update ()
 Player.prototype.update = function() {
     // Prevent player from moving beyond canvas wall boundaries
     if (this.y > 380) {
@@ -46,20 +45,40 @@ Player.prototype.update = function() {
         this.x = 0;
     }
 
-    // Check for player reaching top of canvas and winning the game
+    // Check if Player reaches the top
     if (this.y < 0) {
         this.x = 200;
         this.y = 380;
     }
 };
 
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
+//render()
+Player.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
 
+//handleInput()
+Player.prototype.handleInput = function(keyPress) {
+    switch (keyPress) {
+        case 'left':
+            this.x -= this.speed + 50;
+            break;
+        case 'up':
+            this.y -= this.speed + 30;
+            break;
+        case 'right':
+            this.x += this.speed + 50;
+            break;
+        case 'down':
+            this.y += this.speed + 30;
+            break;
+    }
+};
+
+//array allEnemies
 var allEnemies = [];
 
-// Position "y" where the enemies will are created
+//position where player will be created
 var enemyPosition = [60, 140, 220];
 var player = new Player(200, 380, 50);
 var enemy;
@@ -69,8 +88,7 @@ enemyPosition.forEach(function(posY) {
     allEnemies.push(enemy);
 });
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+//EventListener
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
         37: 'left',
