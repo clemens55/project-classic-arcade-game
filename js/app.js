@@ -3,9 +3,7 @@ var Enemy = function(x, y, speed) {
     this.x = x;
     this.y = y;
     this.speed = speed;
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
+    //load enemy image
     this.sprite = 'images/enemy-bug.png';
 };
 
@@ -18,14 +16,22 @@ Enemy.prototype.update = function(dt) {
         this.x = -100;
         this.speed = 100 + Math.floor(Math.random() * 512);
     }
-    
+
+    //Check if player hits an enemy
+    if (player.x < this.x + 60 &&
+        player.x + 40 > this.x &&
+        player.y < this.y + 25 &&
+        30 + player.y > this.y) {
+        //player gets reset to starting point
+        player.x = 200;
+        player.y = 380;
+    }
 };
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
-
 
 //Player class
 var Player = function(x, y, speed) {
@@ -52,6 +58,7 @@ Player.prototype.update = function() {
 
     // Check if Player reaches the top
     if (this.y < 0) {
+        //Player gets reset to starting point
         this.x = 200;
         this.y = 380;
     }
