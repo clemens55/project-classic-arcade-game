@@ -21,13 +21,67 @@ Enemy.prototype.render = function() {
 };
 
 // Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
+class Player {
+    constructor(){
+        this.sprite = 'images/char-boy.png';
+        this.x = 200;
+        this.y = 390;
+    }
+    //update player's position and reset game when he reaches the top
+    update(){
+        if(this.y <= 0){
+            this.x = 200;
+            this.y = 390;
+        }
+        //keeps player inside field
+        if (this.y > 380) {
+        this.y = 380;
+        }
 
+        if (this.x > 400) {
+            this.x = 400;
+        }
+
+        if (this.x < 0) {
+            this.x = 0;
+        }
+    }
+    //press key to move player
+    handleInput(key) {
+        switch(key){
+            case 'left':
+                this.x -= 100;
+            break;
+        case 'up':
+            this.y -= 85;
+            break;
+        case 'right':
+            this.x += 100;
+            break;
+        case 'down':
+            this.y += 85;
+            break;
+        }
+    }
+    //draw the player on screen
+    render(){
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    }
+};
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+
+//array allEnemies
+var allEnemies = [];
+
+//position where player will be created
+var enemy;
+var enemyPosition = [60, 140, 220];
+var player = new Player();
+var count = 0;
+
 
 
 
