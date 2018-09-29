@@ -22,18 +22,14 @@ class Enemy {
             player.y < this.y + 25 &&
             30 + player.y > this.y) {
             //player gets reset to starting point
-            player.x = 0;
-            player.y = 0;
+            player.x = 200;
+            player.y = 390;
             //increase hit count
             count += 1;
-            //hitCount();
+            hitCount();
         }
-
-
     }
-    
-}
-
+};
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
@@ -52,6 +48,8 @@ class Player {
         if(this.y <= 0){
             this.x = 200;
             this.y = 390;
+            //winning alert
+            win();
         }
         //keeps player inside field
         if (this.y > 390) {
@@ -86,16 +84,13 @@ class Player {
     //draw the player on screen
     render(){
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    }
-    
-    
+    }    
 };
 
 //array allEnemies
-var allEnemies = [];
+let allEnemies = [];
 
 //creating player, set starting point of enemy and keep track on count
-var enemy;
 var enemyPosition = [60, 140, 220];
 var player = new Player();
 var count = 0;
@@ -115,3 +110,16 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
+//count function
+function hitCount() {
+    document.getElementById('count').innerHTML = count;
+}
+
+//alert function
+function win() {
+    if (confirm(`Congrats! You just won the game with ${count} Hit(s)! Do you want to play again?`)) {
+        location.reload();
+    } else {
+        window.close();
+    }
+}
