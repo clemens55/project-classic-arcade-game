@@ -1,23 +1,38 @@
 // Enemies our player must avoid
-var Enemy = function(y) {
+class Enemy {
+    constructor(y){
     this.sprite = 'images/enemy-bug.png';
-    this.x = 0;
+    this.x = -200;
     this.y = y;
     this.speed = 100 + Math.floor(Math.random() * 350 );
-};
-
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-Enemy.prototype.update = function(dt) {
-    this.x += this.speed * dt;
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-    if (this.x > 550) {
-        this.x = -100;
-        this.speed = 100 + Math.floor(Math.random() * 350);
     }
-};
+    
+    //update enemie's position
+    update(dt){
+        this.x += this.speed * dt;
+
+        //Enemy is looping through field
+        if (this.x > 550) {
+            this.x = -100;
+            this.speed = 100 + Math.floor(Math.random() * 350);
+        }
+
+        if (player.x < this.x + 55 &&
+            player.x + 40 > this.x &&
+            player.y < this.y + 25 &&
+            30 + player.y > this.y) {
+            //player gets reset to starting point
+            player.x = 0;
+            player.y = 0;
+            //increase hit count
+            count += 1;
+            //hitCount();
+        }
+
+
+    }
+    
+}
 
 
 // Draw the enemy on the screen, required method for game
@@ -39,8 +54,8 @@ class Player {
             this.y = 390;
         }
         //keeps player inside field
-        if (this.y > 380) {
-        this.y = 380;
+        if (this.y > 390) {
+        this.y = 390;
         }
 
         if (this.x > 400) {
@@ -72,6 +87,8 @@ class Player {
     render(){
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
+    
+    
 };
 
 //array allEnemies
@@ -97,3 +114,4 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
